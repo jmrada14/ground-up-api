@@ -4,7 +4,7 @@ const print = (arg) => console.log(arg);
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const path = require('path');
+require('dotenv').config({ path: '.env' });
 
 // ROUTES:
 const routes = require('./routes/api');
@@ -19,11 +19,12 @@ app.use(
 app.use(bodyParser.json());
 
 // DATABASE:
-const db = require("./keys/db");
-mongoose.connect(
-    db,{ useNewUrlParser: true }
-).then( () => print("CONNECTED TO DB")
-).catch(err => print(err) );
+mongoose
+    .connect(
+         "mongodb://localhost:27017/ground-up-api"
+    )
+    .then(() => console.log("MongoDB successfully connected"))
+    .catch(err => console.log(err));
 
 // ROUTES:
 app.use("/api", routes);
